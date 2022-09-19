@@ -56,6 +56,7 @@ SickSafetyscannersRos::SickSafetyscannersRos()
     ROS_ERROR("Could not read parameters.");
     ros::requestShutdown();
   }
+   run(1000);
   // tcp port can not be changed in the sensor configuration, therefore it is hardcoded
   m_communication_settings.setSensorTcpPort(2122);
   m_laser_scan_publisher = m_nh.advertise<sensor_msgs::LaserScan>("scan", 100);
@@ -827,6 +828,35 @@ bool SickSafetyscannersRos::getFieldData(sick_safetyscanners::FieldData::Request
   }
 
   return true;
+}
+std::function<void(void)> SickSafetyscannersRos::watchdog()
+{
+        sick_3 = system("ping -c1 -s1 192.168.250.67  > /dev/null 2>&1");
+        sick_2 = system("ping -c1 -s1 192.168.250.68  > /dev/null 2>&1");
+        sick_1 = system("ping -c1 -s1 192.168.250.66  > /dev/null 2>&1");
+        std::cout <<sick_1<<sick_2<<std::endl;
+        if (sick_1 == 0 && sick_2 == 0 && sick_3 == 0)
+        {
+            std::cout << "success"<<std::endl;
+        }
+        else
+        {   
+            ros::requestShutdown();
+            std::cout << "failed"<<std::endl;
+        }
+    
+}
+
+void SickSafetyscannersRos::run(const int duration)
+{
+    std::thread([this, duration]() {
+        while (true)
+        {
+            watchdog();
+            auto ms = std::chrono::steady_clock::now() + std::chrono::milliseconds(duration);
+            std::this_thread::sleep_until(ms);
+        }
+    }).detach();
 }
 
 

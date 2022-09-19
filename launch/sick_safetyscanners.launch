@@ -29,7 +29,7 @@
   <arg name="use_persistent_config"   default="False" />
 
   <!-- Launch Sick SickSafetyscanners Ros Driver Node -->
-  <node pkg="sick_safetyscanners" type="sick_safetyscanners_node" name="sick_safetyscanners"  ns="sick_safetyscanners_1">
+  <node pkg="sick_safetyscanners" type="sick_safetyscanners_node" name="sick_safetyscanners"  ns="sick_safetyscanners_1" respawn="true">
      <param name="sensor_ip"              type="string" value="$(arg sensor_ip_1)" />
      <param name="host_ip"                type="string" value="$(arg host_ip)" />
      <param name="host_udp_port"          type="int"    value="$(arg host_udp_port)" />
@@ -48,7 +48,7 @@
      <param name="use_persistent_config"  type="bool"   value="$(arg use_persistent_config)" />
   </node>
 
-<node pkg="sick_safetyscanners" type="sick_safetyscanners_node" name="sick_safetyscanners"  ns="sick_safetyscanners_2">
+<node pkg="sick_safetyscanners" type="sick_safetyscanners_node" name="sick_safetyscanners"  ns="sick_safetyscanners_2" respawn="true">
      <param name="sensor_ip"              type="string" value="$(arg sensor_ip_2)" />
      <param name="host_ip"                type="string" value="$(arg host_ip)" />
      <param name="host_udp_port"          type="int"    value="$(arg host_udp_port)" />
@@ -67,7 +67,7 @@
      <param name="use_persistent_config"  type="bool"   value="$(arg use_persistent_config)" />
   </node>
 
-  <node pkg="sick_safetyscanners" type="sick_safetyscanners_node" name="sick_safetyscanners"  ns="sick_safetyscanners_3">
+  <node pkg="sick_safetyscanners" type="sick_safetyscanners_node" name="sick_safetyscanners"  ns="sick_safetyscanners_3" respawn="true">
      <param name="sensor_ip"              type="string" value="$(arg sensor_ip_3)" />
      <param name="host_ip"                type="string" value="$(arg host_ip)" />
      <param name="host_udp_port"          type="int"    value="$(arg host_udp_port)" />
