@@ -823,8 +823,8 @@ bool SickSafetyscannersRos::getFieldData(sick_safetyscanners::FieldData::Request
 }
 std::function<void(void)> SickSafetyscannersRos::watchdog()
 {
-        int sick_2 = system("ping -c1 -s1 10.150.1.201  > /dev/null 2>&1");
-        int sick_1 = system("ping -c1 -s1 10.150.1.200  > /dev/null 2>&1");
+        int sick_2 = system("ping -c3 -s3 10.150.1.201  > /dev/null 2>&1");
+        int sick_1 = system("ping -c3 -s3 10.150.1.200  > /dev/null 2>&1");
 
         if (sick_1 == 0 && sick_2 == 0)
         {
@@ -835,7 +835,7 @@ std::function<void(void)> SickSafetyscannersRos::watchdog()
             ROS_ERROR("ICMP Connection Failed, Shutdown the node...");
             ros::requestShutdown();
         }
-    
+    return 0;
 }
 
 void SickSafetyscannersRos::run(const int duration)
