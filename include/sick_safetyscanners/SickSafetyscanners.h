@@ -96,8 +96,7 @@ public:
    * \param settings Current settings for the sensor.
    */
   SickSafetyscanners(const packetReceivedCallbackFunction& newPacketReceivedCallbackFunction,
-                     sick::datastructure::CommSettings* settings,
-                     boost::asio::ip::address_v4 interface_ip);
+                     sick::datastructure::CommSettings* settings);
 
   /*!
    * \brief Destructor

@@ -146,7 +146,6 @@ private:
   std::shared_ptr<sick::SickSafetyscanners> m_device;
 
   sick::datastructure::CommSettings m_communication_settings;
-  boost::asio::ip::address_v4 m_interface_ip;
 
   dynamic_reconfigure::Server<sick_safetyscanners::SickSafetyscannersConfigurationConfig>
     m_dynamic_reconfiguration_server;
