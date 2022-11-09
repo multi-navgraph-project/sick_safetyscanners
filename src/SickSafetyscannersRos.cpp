@@ -831,11 +831,10 @@ bool SickSafetyscannersRos::getFieldData(sick_safetyscanners::FieldData::Request
 }
 std::function<void(void)> SickSafetyscannersRos::watchdog()
 {
-        int sick_3 = system("ping -c1 -s1 192.168.250.67  > /dev/null 2>&1");
-        int sick_2 = system("ping -c1 -s1 192.168.250.68  > /dev/null 2>&1");
-        int sick_1 = system("ping -c1 -s1 192.168.250.66  > /dev/null 2>&1");
+        int sick_2 = system("ping -c1 -s1 10.150.1.201  > /dev/null 2>&1");
+        int sick_1 = system("ping -c1 -s1 10.150.1.200  > /dev/null 2>&1");
 
-        if (sick_1 == 0 && sick_2 == 0 && sick_3 == 0)
+        if (sick_1 == 0 && sick_2 == 0)
         {
             ROS_INFO("ICMP Connection Alive !");
         }
