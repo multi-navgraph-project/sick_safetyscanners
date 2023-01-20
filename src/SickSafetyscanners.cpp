@@ -39,30 +39,15 @@ namespace sick {
 
 SickSafetyscanners::SickSafetyscanners(
   const packetReceivedCallbackFunction& newPacketReceivedCallbackFunction,
-  sick::datastructure::CommSettings* settings,
-  boost::asio::ip::address_v4 interface_ip)
+  sick::datastructure::CommSettings* settings)
   : m_newPacketReceivedCallbackFunction(newPacketReceivedCallbackFunction)
 {
   ROS_INFO("Starting SickSafetyscanners");
-  m_io_service_ptr = std::make_shared<boost::asio::io_service>();
-  if (settings->getHostIp().is_multicast())
-  {
-    ROS_INFO("Multicast Host Ip configured");
-    m_async_udp_client_ptr = std::make_shared<sick::communication::AsyncUDPClient>(
-      boost::bind(&SickSafetyscanners::processUDPPacket, this, _1),
-      boost::ref(*m_io_service_ptr),
-      settings->getHostIp(),
-      // boost::asio::ip::address_v4::from_string("192.168.1.9"),
-      interface_ip,
-      settings->getHostUdpPort());
-  }
-  else
-  {
-    m_async_udp_client_ptr = std::make_shared<sick::communication::AsyncUDPClient>(
-      boost::bind(&SickSafetyscanners::processUDPPacket, this, _1),
-      boost::ref(*m_io_service_ptr),
-      settings->getHostUdpPort());
-  }
+  m_io_service_ptr       = std::make_shared<boost::asio::io_service>();
+  m_async_udp_client_ptr = std::make_shared<sick::communication::AsyncUDPClient>(
+    boost::bind(&SickSafetyscanners::processUDPPacket, this, _1),
+    boost::ref(*m_io_service_ptr),
+    settings->getHostUdpPort());
   settings->setHostUdpPort(
     m_async_udp_client_ptr
       ->getLocalPort()); // Store which port was used, needed for data request from the laser
@@ -264,8 +249,22 @@ void SickSafetyscanners::changeCommSettingsInColaSession(
 void SickSafetyscanners::requestFieldDataInColaSession(
   std::vector<sick::datastructure::FieldData>& fields)
 {
-  sick::cola2::Cola2Session::CommandPtr command_ptr;
+  sick::datastructure::ConfigData config_data;
 
+  /*sick::cola2::Cola2Session::CommandPtr command_ptr =
+    std::make_shared<sick::cola2::MeasurementPersistentConfigVariableCommand>(
+      boost::ref(*m_session_ptr), pers_config_data);
+  m_session_ptr->executeCommand(command_ptr);
+*/
+  sick::cola2::Cola2Session::CommandPtr command_ptr =
+    std::make_shared<sick::cola2::MeasurementCurrentConfigVariableCommand>(
+      boost::ref(*m_session_ptr), config_data);
+  m_session_ptr->executeCommand(command_ptr);
+  /*
+    command_ptr = std::make_shared<sick::cola2::MonitoringCaseTableHeaderVariableCommand>(
+      boost::ref(*m_session_ptr), common_field_data);
+    m_session_ptr->executeCommand(command_ptr);
+  */
   for (int i = 0; i < 128; i++)
   {
     sick::datastructure::FieldData field_data;
@@ -279,6 +278,9 @@ void SickSafetyscanners::requestFieldDataInColaSession(
       command_ptr = std::make_shared<sick::cola2::FieldGeometryVariableCommand>(
         boost::ref(*m_session_ptr), field_data, i);
       m_session_ptr->executeCommand(command_ptr);
+
+      field_data.setStartAngleDegrees(config_data.getDerivedStartAngle());
+      field_data.setAngularBeamResolutionDegrees(config_data.getDerivedAngularBeamResolution());
 
       fields.push_back(field_data);
     }

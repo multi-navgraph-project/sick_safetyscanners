@@ -146,7 +146,6 @@ private:
   std::shared_ptr<sick::SickSafetyscanners> m_device;
 
   sick::datastructure::CommSettings m_communication_settings;
-  boost::asio::ip::address_v4 m_interface_ip;
 
   dynamic_reconfigure::Server<sick_safetyscanners::SickSafetyscannersConfigurationConfig>
     m_dynamic_reconfiguration_server;
@@ -164,6 +163,8 @@ private:
   bool m_use_sick_angles;
   float m_angle_offset;
   bool m_use_pers_conf;
+
+  int sick_1, sick_2, sick_3;
 
   /*!
    * @brief Reads and verifies the ROS parameters.
