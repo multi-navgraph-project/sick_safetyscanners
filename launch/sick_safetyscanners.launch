@@ -36,7 +36,7 @@
      <param name="frame_id"               type="string" value="$(arg frame_id_1)" />
      <param name="skip"                   type="int"    value="$(arg skip)" />
      <param name="angle_start"            type="double" value="-2.3998" /><!-- -2.3998--> <!-- -1.67986-->
-     <param name="angle_end"              type="double" value="0.815932" /><!-- 0.815932--> <!-- 1.535872-->
+     <param name="angle_end"              type="double" value="1.487876" /><!-- 0.815932--> <!-- 1.535872-->
      <param name="time_offset"            type="double" value="$(arg time_offset)" />
      <param name="min_intensities"        type="double" value="$(arg min_intensities)" />
      <param name="channel_enabled"        type="bool"   value="$(arg channel_enabled)" />
@@ -73,8 +73,8 @@
      <param name="host_udp_port"          type="int"    value="$(arg host_udp_port)" />
      <param name="frame_id"               type="string" value="$(arg frame_id_3)" />
      <param name="skip"                   type="int"    value="$(arg skip)" />
-     <param name="angle_start"            type="double" value="-1.67986" /> <!-- -1.67986--> <!-- -2.111824-->
-     <param name="angle_end"              type="double" value="-1.2478964" /> <!-- -1.247896--> <!-- -0.911924-->
+     <param name="angle_start"            type="double" value="-2.15982" /> <!-- -1.67986--> <!-- -2.111824-->
+     <param name="angle_end"              type="double" value="-0.862928" /> <!-- -1.247896--> <!-- -0.911924-->
      <param name="time_offset"            type="double" value="$(arg time_offset)" />
      <param name="min_intensities"        type="double" value="$(arg min_intensities)" />
      <param name="channel_enabled"        type="bool"   value="$(arg channel_enabled)" />
