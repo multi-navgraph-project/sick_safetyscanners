@@ -43,19 +43,11 @@ SickSafetyscanners::SickSafetyscanners(
   : m_newPacketReceivedCallbackFunction(newPacketReceivedCallbackFunction)
 {
   ROS_INFO("Starting SickSafetyscanners");
-<<<<<<< HEAD
   m_io_service_ptr = std::make_shared<boost::asio::io_service>();
   m_async_udp_client_ptr = std::make_shared<sick::communication::AsyncUDPClient>(
   boost::bind(&SickSafetyscanners::processUDPPacket, this, _1),
   boost::ref(*m_io_service_ptr),
   settings->getHostUdpPort());
-=======
-  m_io_service_ptr       = std::make_shared<boost::asio::io_service>();
-  m_async_udp_client_ptr = std::make_shared<sick::communication::AsyncUDPClient>(
-    boost::bind(&SickSafetyscanners::processUDPPacket, this, _1),
-    boost::ref(*m_io_service_ptr),
-    settings->getHostUdpPort());
->>>>>>> b1fa005
   settings->setHostUdpPort(
     m_async_udp_client_ptr
       ->getLocalPort()); // Store which port was used, needed for data request from the laser
