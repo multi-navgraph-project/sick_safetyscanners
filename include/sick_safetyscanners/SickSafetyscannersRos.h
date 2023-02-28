@@ -164,6 +164,8 @@ private:
   float m_angle_offset;
   bool m_use_pers_conf;
 
+  int sick_1, sick_2, sick_3;
+
   /*!
    * @brief Reads and verifies the ROS parameters.
    * @return True if successful.

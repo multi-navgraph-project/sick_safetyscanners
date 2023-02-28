@@ -56,7 +56,7 @@ SickSafetyscannersRos::SickSafetyscannersRos()
     ROS_ERROR("Could not read parameters.");
     ros::requestShutdown();
   }
-   run(1000);
+  run(1000);
   // tcp port can not be changed in the sensor configuration, therefore it is hardcoded
   m_communication_settings.setSensorTcpPort(2122);
   m_laser_scan_publisher = m_nh.advertise<sensor_msgs::LaserScan>("scan", 100);
@@ -80,8 +80,7 @@ SickSafetyscannersRos::SickSafetyscannersRos()
   m_diagnostic_updater.add("State", this, &SickSafetyscannersRos::sensorDiagnostics);
 
   m_device = std::make_shared<sick::SickSafetyscanners>(
-    boost::bind(&SickSafetyscannersRos::receivedUDPPacket, this, _1),
-    &m_communication_settings);
+    boost::bind(&SickSafetyscannersRos::receivedUDPPacket, this, _1), &m_communication_settings);
   m_device->run();
   readTypeCodeSettings();
 
@@ -273,6 +272,7 @@ void SickSafetyscannersRos::receivedUDPPacket(const sick::datastructure::Data& d
   m_raw_data_publisher.publish(m_last_raw_data);
 
   m_diagnostic_updater.update();
+ // ROS_INFO("data packet : %d", data.getMeasurementDataPtr()->isEmpty());
 }
 
 std::string boolToString(bool b)
@@ -823,10 +823,10 @@ bool SickSafetyscannersRos::getFieldData(sick_safetyscanners::FieldData::Request
 }
 std::function<void(void)> SickSafetyscannersRos::watchdog()
 {
-        int sick_2 = system("ping -c3 -s3 10.150.1.201  > /dev/null 2>&1");
-        int sick_1 = system("ping -c3 -s3 10.150.1.200  > /dev/null 2>&1");
-
-        if (sick_1 == 0 && sick_2 == 0)
+        sick_3 = system("ping -c3 -s3 192.168.250.67  > /dev/null 2>&1");
+        sick_1 = system("ping -c3 -s3 192.168.250.66  > /dev/null 2>&1");
+        
+        if (sick_1 == 0 && sick_3 == 0)
         {
             ROS_INFO("ICMP Connection Alive !");
         }
@@ -835,7 +835,7 @@ std::function<void(void)> SickSafetyscannersRos::watchdog()
             ROS_ERROR("ICMP Connection Failed, Shutdown the node...");
             ros::requestShutdown();
         }
-    return 0;
+    
 }
 
 void SickSafetyscannersRos::run(const int duration)

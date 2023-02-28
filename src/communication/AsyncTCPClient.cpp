@@ -93,7 +93,7 @@ void AsyncTCPClient::doConnect()
     if (ec != boost::system::errc::success)
     {
       ROS_ERROR("TCP error code: %i", ec.value());
-      exit(1);
+      exit(-1);
     }
     else
     {
